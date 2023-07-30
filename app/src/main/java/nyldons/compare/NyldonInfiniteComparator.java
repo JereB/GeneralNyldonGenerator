@@ -2,11 +2,16 @@ package nyldons.compare;
 
 import nyldons.order.NyldonOrder;
 
-public class NyldonComparatorInfinite implements NyldonComparator{
+public class NyldonInfiniteComparator implements NyldonComparator{
 
     final NyldonOrder order;
 
-    public NyldonComparatorInfinite(NyldonOrder order) {
+    @Override
+    public String fileName() {
+        return order.name() + "-" + "InfiniteComp.csv";
+    }
+
+    public NyldonInfiniteComparator(NyldonOrder order) {
         this.order = order;
     }
 

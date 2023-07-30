@@ -3,34 +3,39 @@
  */
 package nyldons;
 
-import nyldons.compare.NyldonNaturalComparator;
-import nyldons.order.LexicographicOrder;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 public class App {
 
-    public static void main(String[] args) {
 
-        var order = new LexicographicOrder();
-        var cpm = new NyldonNaturalComparator(order);
-        var nyldon = new ArrayList<String>();
-        nyldon.add("0");
-        nyldon.add("1");
+    public static void main(String[] args) throws IOException {
 
-        for (int i = 0; i < 6; i++) {
-            var check = new NyldonChecker(cpm, nyldon);
-            var newNyldon = new ArrayList<String>();
-            var gen = new WordGenerator(i);
-            while (gen.hasNext()) {
-                var word = gen.next();
-                if (check.isNyldonWord(word)) {
-                    newNyldon.add(word);
-                }
-            }
-            nyldon.addAll(newNyldon);
-        }
+        var comp = Setting.getComparator();
+        var max = Setting.maxLength;
+        var gen = new NyldonGenerator(comp, max);
 
-        nyldon.forEach(System.out::println);
+        var nyldon = gen.generate();
+
+        writeToFile(nyldon);
     }
+
+    private static void writeToFile(List<String> nyldon) throws IOException {
+        Path path = Setting.getOutputFilePath();
+
+        Files.createDirectories(path.getParent());
+
+        try (var writer = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
+            for (String word : nyldon) {
+                writer.write(word);
+                writer.newLine();
+            }
+        }
+    }
+
+
 }

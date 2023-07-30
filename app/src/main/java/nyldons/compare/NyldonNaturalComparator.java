@@ -5,6 +5,10 @@ import nyldons.order.NyldonOrder;
 public class NyldonNaturalComparator implements NyldonComparator {
         final NyldonOrder order;
 
+        public String fileName() {
+            return order.name() + "-NormalComp.csv";
+        }
+
         public NyldonNaturalComparator(NyldonOrder order) {
             this.order = order;
         }
