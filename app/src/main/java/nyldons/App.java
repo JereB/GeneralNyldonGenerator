@@ -3,12 +3,34 @@
  */
 package nyldons;
 
+import nyldons.compare.NyldonNaturalComparator;
+import nyldons.order.LexicographicOrder;
+
+import java.util.ArrayList;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+
+        var order = new LexicographicOrder();
+        var cpm = new NyldonNaturalComparator(order);
+        var nyldon = new ArrayList<String>();
+        nyldon.add("0");
+        nyldon.add("1");
+
+        for (int i = 0; i < 6; i++) {
+            var check = new NyldonChecker(cpm, nyldon);
+            var newNyldon = new ArrayList<String>();
+            var gen = new WordGenerator(i);
+            while (gen.hasNext()) {
+                var word = gen.next();
+                if (check.isNyldonWord(word)) {
+                    newNyldon.add(word);
+                }
+            }
+            nyldon.addAll(newNyldon);
+        }
+
+        nyldon.forEach(System.out::println);
     }
 }
