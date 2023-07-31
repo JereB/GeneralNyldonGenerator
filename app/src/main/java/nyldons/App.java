@@ -4,6 +4,8 @@
 package nyldons;
 
 
+import nyldons.compare.NyldonComparator;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,17 +14,31 @@ import java.util.List;
 
 public class App {
 
+    private final NyldonGenerator gen;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         var comp = Setting.getComparator();
         var max = Setting.maxLength;
-        var gen = new NyldonGenerator(comp, max);
 
+        new App(comp, max).run();
+    }
+
+    public App(NyldonComparator comp, int maxLength) {
+        this.gen = new NyldonGenerator(comp, maxLength);
+    }
+
+    public void run() {
         var nyldon = gen.generate();
 
-        writeToFile(nyldon);
+        try {
+            writeToFile(nyldon);
+        } catch (IOException e) {
+            System.err.println("Error while writing to file");
+            e.printStackTrace();
+        }
     }
+
 
     private static void writeToFile(List<String> nyldon) throws IOException {
         Path path = Setting.getOutputFilePath();
@@ -36,6 +52,9 @@ public class App {
             }
         }
     }
+
+
+
 
 
 }
