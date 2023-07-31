@@ -33,3 +33,5 @@ build
 
 # generated Word should not be versioned
 output
+
+!gradle/wrapper/gradle-wrapper.jar
