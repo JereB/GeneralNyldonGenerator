@@ -26,7 +26,7 @@ public class NyldonInfiniteComparator implements NyldonComparator{
             final var indexB = i % lengthB;
             final var charA = o1.charAt(indexA);
             final var charB = o2.charAt(indexB);
-            final var comparison = order.compare(charA, charB, i);
+            final var comparison = order.compare(charA, charB, i + 1);
             if (comparison != 0)
                 return comparison;
         }

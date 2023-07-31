@@ -17,7 +17,7 @@ public class NyldonNaturalComparator implements NyldonComparator {
             for (int i = 0; i < cmpLenght; i++) {
                 final var charA = o1.charAt(i);
                 final var charB = o2.charAt(i);
-                final var comparison = order.compare(charA, charB, i);
+                final var comparison = order.compare(charA, charB, i + 1);
                 if (comparison != 0)
                     return comparison;
             }
