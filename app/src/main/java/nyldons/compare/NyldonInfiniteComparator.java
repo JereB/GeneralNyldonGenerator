@@ -2,7 +2,7 @@ package nyldons.compare;
 
 import nyldons.order.NyldonOrder;
 
-public class NyldonInfiniteComparator implements NyldonComparator{
+public class NyldonInfiniteComparator implements NyldonComparator {
 
     final NyldonOrder order;
 
@@ -36,7 +36,12 @@ public class NyldonInfiniteComparator implements NyldonComparator{
     private int findLCM(int a, int b) {
         final int greater = Math.max(a, b);
         final int smallest = Math.min(a, b);
-        for (int i = greater;; i += greater) {
+
+        if (smallest == 0) {
+            return 0;
+        }
+
+        for (int i = greater; ; i += greater) {
             if (i % smallest == 0)
                 return i;
         }
