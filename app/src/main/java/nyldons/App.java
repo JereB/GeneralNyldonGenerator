@@ -4,12 +4,6 @@
 package nyldons;
 
 
-import nyldons.compare.NyldonComparator;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class App {
@@ -17,44 +11,40 @@ public class App {
     private final NyldonGenerator gen;
 
     public static void main(String[] args) {
-
-        var comp = Setting.getComparator();
-        var max = Setting.maxLength;
-
-        new App(comp, max).run();
+        new App().run();
     }
 
-    public App(NyldonComparator comp, int maxLength) {
+    public App() {
+        var comp = Setting.getComparator();
+        var maxLength = Setting.maxLength;
+
         this.gen = new NyldonGenerator(comp, maxLength);
     }
 
     public void run() {
-        var nyldon = gen.generate();
 
-        try {
-            writeToFile(nyldon);
-        } catch (IOException e) {
-            System.err.println("Error while writing to file");
-            e.printStackTrace();
-        }
+
+        List<String> nyldon = switch (Setting.mode) {
+            case Generate -> generate();
+            case Check -> check();
+        };
+
+
+        FileUtil.writeToFile(nyldon, Setting.getOutputFilePath());
+
     }
 
-
-    private static void writeToFile(List<String> nyldon) throws IOException {
-        Path path = Setting.getOutputFilePath();
-
-        Files.createDirectories(path.getParent());
-
-        try (var writer = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
-            for (String word : nyldon) {
-                writer.write(word);
-                writer.newLine();
-            }
-        }
+    private List<String> check() {
+        var nyldons = FileUtil.readFromFile(Setting.getInputFilePath());
+        Setting.predicate.setup(nyldons, Setting.getComparator());
+        return nyldons.stream()
+                .filter(Setting.predicate.negate())
+                .toList();
     }
 
-
-
+    private List<String> generate() {
+        return gen.generate();
+    }
 
 
 }
