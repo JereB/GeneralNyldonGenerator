@@ -1,5 +1,7 @@
 package nyldons;
 
+import nyldons.alphabets.Alphabet;
+import nyldons.alphabets.AlphabetUtil;
 import nyldons.compare.NyldonComparator;
 import nyldons.compare.NyldonInfiniteComparator;
 import nyldons.compare.NyldonNaturalComparator;
@@ -23,6 +25,7 @@ public class Setting {
 
     final public static NyldonPredicate predicate = new SuffixSmallerThanWord();
 
+    final public static Alphabet alphabet = AlphabetUtil.getAlphabet(3);
 
     // Helper
     public static NyldonComparator getComparator() {
@@ -34,7 +37,7 @@ public class Setting {
     }
 
     public static String getFilename() {
-        return getComparator().fileName();
+        return alphabet.name() + "+" + getComparator().fileName();
     }
 
     public static Path getInputFilePath() {

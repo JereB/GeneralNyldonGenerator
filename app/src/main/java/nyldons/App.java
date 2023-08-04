@@ -17,8 +17,14 @@ public class App {
     public App() {
         var comp = Setting.getComparator();
         var maxLength = Setting.maxLength;
+        var alphabet = Setting.alphabet;
 
-        this.gen = new NyldonGenerator(comp, maxLength);
+        if (!Setting.order.worksWithAlphabet(alphabet.size())) {
+            throw new IllegalArgumentException("Order " + Setting.order.name() + " does not work with alphabet " + alphabet.name());
+        }
+
+
+        this.gen = new NyldonGenerator(comp, maxLength, alphabet);
     }
 
     public void run() {
