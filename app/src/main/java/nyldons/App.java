@@ -5,8 +5,11 @@ package nyldons;
 
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class App {
+
+    final static Logger logger = Logger.getLogger(App.class.getName());
 
     private final NyldonGenerator gen;
 
@@ -29,12 +32,14 @@ public class App {
 
     public void run() {
 
-
+        var startTime = System.currentTimeMillis();
         List<String> nyldon = switch (Setting.mode) {
             case Generate -> generate();
             case Check -> check();
         };
 
+        logger.info("Time taken: " + (System.currentTimeMillis() - startTime) + "ms");
+        logger.info("Number of nyldons: " + nyldon.size());
 
         FileUtil.writeToFile(nyldon, Setting.getOutputFilePath());
 

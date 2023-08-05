@@ -5,8 +5,10 @@ import nyldons.compare.NyldonComparator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class NyldonGenerator {
+    private static final Logger logger = Logger.getLogger(NyldonGenerator.class.getName());
     private final NyldonComparator comparator;
     private final int maxLength;
 
@@ -27,6 +29,7 @@ public class NyldonGenerator {
         }
 
         for (int i = 0; i < maxLength; i++) {
+            var startTime = System.currentTimeMillis();
             var check = new NyldonChecker(comparator, nyldon);
             var newNyldon = new ArrayList<String>();
             var gen = new WordGenerator(i, alphabet);
@@ -36,6 +39,8 @@ public class NyldonGenerator {
                     newNyldon.add(word);
                 }
             }
+            logger.info("Number of nyldons for length " + i + ": " + newNyldon.size());
+            logger.info("Time taken for length " + i + ": " + (System.currentTimeMillis() - startTime) + "ms");
             nyldon.addAll(newNyldon);
         }
         return nyldon;

@@ -5,11 +5,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class FileUtil {
 
+    private static final Logger logger = Logger.getLogger(FileUtil.class.getName());
+
     public static void writeToFile(List<String> nyldon, Path path) {
 
+        logger.info("Writing to file " + path);
         try {
             Files.createDirectories(path.getParent());
 
@@ -25,6 +29,7 @@ public class FileUtil {
     }
 
     public static List<String> readFromFile(Path path) {
+        logger.info("Reading from file " + path);
         try {
             return Files.readAllLines(path)
                     .stream()
