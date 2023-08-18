@@ -52,10 +52,6 @@ public class GeneralNyldonMelacon {
         return comparator.compare(list.get(previous), list.get(index)) > 0;
     }
 
-    private String getLast(List<String> list) {
-        return list.get(list.size() - 1);
-    }
-
     private void concatToPrevious(List<String> list, int index) {
         var toConcat = switch (index) {
             case 0 -> list.size() -1;
